@@ -13,7 +13,10 @@ import java.util.List;
 import croom.konekom.in.a100pitask.R;
 import croom.konekom.in.a100pitask.model.Currency;
 
-
+/***
+ * Created By Kartikey Kumar Srivastava
+ */
+//Adapter to hold currency data
 public class CurrencyItemsAdapter extends RecyclerView.Adapter<CurrencyItemsAdapter.ViewHolder> {
     private Context context;
     private List<Currency> currencies;
@@ -40,6 +43,7 @@ public class CurrencyItemsAdapter extends RecyclerView.Adapter<CurrencyItemsAdap
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Currency currency = currencies.get(i);
+        //Setting custom object data
         viewHolder.currencyLong.setText(currency.getCurrencyLong());
         viewHolder.currency.setText(currency.getCurrency());
         viewHolder.txFee.setText(currency.getTxFee()+"");

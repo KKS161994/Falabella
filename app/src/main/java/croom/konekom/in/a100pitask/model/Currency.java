@@ -5,11 +5,16 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
+/***
+ * Created By Kartikey Kumar Srivastava
+ */
+
+//Currency model both as a table as well as model for retrofit
 @Entity(tableName = "Currency")
 public class Currency {
 
-        @PrimaryKey(autoGenerate = true)
-        public int id;
+    @PrimaryKey(autoGenerate = true)
+    public int id;
 
     @SerializedName("Currency")
     @ColumnInfo(name = "Currency")

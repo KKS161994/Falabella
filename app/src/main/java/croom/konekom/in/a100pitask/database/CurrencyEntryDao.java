@@ -8,7 +8,11 @@ import java.util.List;
 
 import croom.konekom.in.a100pitask.model.Currency;
 
+/***
+ * Created By Kartikey Kumar Srivastava
+ */
 
+//Dao interface for CRUD operations
 @Dao
 public interface CurrencyEntryDao {
     @Query("SELECT * FROM Currency")

@@ -1,10 +1,13 @@
 package croom.konekom.in.a100pitask.model;
 
 import com.google.gson.annotations.SerializedName;
-
-
 import java.util.List;
 
+/***
+ * Created By Kartikey Kumar Srivastava
+ */
+
+//Response Model that will be received for getCurrencies Call
 public class SuccessResponse {
 
     @SerializedName("success")

@@ -7,7 +7,11 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
 import croom.konekom.in.a100pitask.model.Currency;
+/***
+ * Created By Kartikey Kumar Srivastava
+ */
 
+//Database to store values locally
 @Database(entities = {Currency.class}, exportSchema = false, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase instance;

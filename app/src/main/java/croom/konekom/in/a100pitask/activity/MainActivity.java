@@ -25,6 +25,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/***
+ * Created By Kartikey Kumar Srivastava
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     private ApiInterface apiInterface;
@@ -52,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //To initialise view and variable
     private void init() {
         toolbar = getSupportActionBar();
         appDatabase = AppDatabase.getInstance(this);
@@ -60,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.currency_loader);
     }
 
+    //To load data from local database when network is not present or API call fails
     private void loadDataFromDatabase() {
         currencyArrayList.addAll(appDatabase.userDao().getAllCurrencies());
         if (currencyArrayList.size() > 0) {
@@ -69,17 +75,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //To set network error when their is no network and no data in local database.
     private void setNoContentPage() {
         currencyRecyclerView.setVisibility(View.GONE);
         noNetworkView.setVisibility(View.VISIBLE);
     }
 
+    //To set adapter for currency list
     private void setAdapter() {
         currencyItemsAdapter = new CurrencyItemsAdapter(this, currencyArrayList);
         currencyRecyclerView.setAdapter(currencyItemsAdapter);
         currencyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    //To load data from API
     private void loadDataFromInternet() {
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         progressBar.setVisibility(View.VISIBLE);
@@ -103,10 +112,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //Saving the list to database
     private void saveCurrencyToDatabase(List<Currency> currencies) {
         appDatabase.userDao().nukeTable();
         appDatabase.userDao().insertCurrencies(currencies);
-       // Log.d(TAG,"Current size "+appDatabase.userDao().getAllCurrencies().size());
         currencyArrayList.addAll(appDatabase.userDao().getAllCurrencies());
         setAdapter();
 

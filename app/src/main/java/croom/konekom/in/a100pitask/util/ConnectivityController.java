@@ -5,6 +5,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
+/***
+ * Created By Kartikey Kumar Srivastava
+ */
+
+//Class to check whether internet is available or not
 public class ConnectivityController {
 
     public static final String TAG = ConnectivityController.class.getName();
