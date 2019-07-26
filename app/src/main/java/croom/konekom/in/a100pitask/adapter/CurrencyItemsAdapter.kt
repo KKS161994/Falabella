@@ -15,8 +15,16 @@ import croom.konekom.`in`.a100pitask.model.Currency
  * Created By Kartikey Kumar Srivastava
  */
 //Adapter to hold currency data
-class CurrencyItemsAdapter(private val context: Context, private val currencies: MutableList<Currency>) : RecyclerView.Adapter<CurrencyItemsAdapter.ViewHolder>() {
+class CurrencyItemsAdapter(private val context: Context) : RecyclerView.Adapter<CurrencyItemsAdapter.ViewHolder>() {
+    var currencies: List<Currency> = emptyList()
+        set(value) {
+            field = value
+            // For an extra challenge, update this to use the paging library.
 
+            // Notify any registered observers that the data set has changed. This will cause every
+            // element in our RecyclerView to be invalidated.
+            notifyDataSetChanged()
+        }
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         val inflater = LayoutInflater.from(context)
 

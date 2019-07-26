@@ -13,6 +13,7 @@ import croom.konekom.`in`.a100pitask.R
 import croom.konekom.`in`.a100pitask.constant.Constants
 import croom.konekom.`in`.a100pitask.database.AppDatabase
 import croom.konekom.`in`.a100pitask.model.Currency
+import croom.konekom.`in`.a100pitask.repository.CurrencyRepository
 
 /***
  * Created By Kartikey Kumar Srivastava
@@ -39,7 +40,7 @@ class CurrencyWidgetProvider : AppWidgetProvider() {
 
         for (appwidgetId in appWidgetIds) {
 
-            currencyArrayList = appDatabase!!.userDao().allCurrencies
+            currencyArrayList = appDatabase!!.userDao().allCurrencies.value
             val views = RemoteViews(context.packageName, R.layout.app_widget)
 
             if (currencyArrayList!!.size > 0) {
@@ -79,7 +80,7 @@ class CurrencyWidgetProvider : AppWidgetProvider() {
         sharedpreferences = context.getSharedPreferences(Constants.MyPREFERENCES, Context.MODE_PRIVATE)
         appDatabase = AppDatabase.getInstance(context)
 
-        currencyArrayList = appDatabase!!.userDao().allCurrencies
+        currencyArrayList = CurrencyRepository(appDatabase!!).currencies.value
 
         if (PREVIOUS_CURRENCY == intent.action) {
             current_pos = sharedpreferences!!.getInt(Constants.CURRENT_POS, 0)

@@ -1,6 +1,7 @@
 package croom.konekom.`in`.a100pitask.database
 
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -15,7 +16,7 @@ import croom.konekom.`in`.a100pitask.model.Currency
 @Dao
 interface CurrencyEntryDao {
     @get:Query("SELECT * FROM Currency")
-    val allCurrencies: List<Currency>
+    val allCurrencies: LiveData<List<Currency>>
 
     @Insert
     fun insertCurrencies(currencyEntries: List<Currency>)
