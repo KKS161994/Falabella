@@ -51,7 +51,6 @@ class CurrencyRepository(private val appDatabase: AppDatabase, private val app: 
 
 
     fun checkDatabase() {
-
         if (currencies.value != null && currencies.value!!.size > 0) {
             inProgress.value = 2
         } else {
