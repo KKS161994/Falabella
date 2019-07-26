@@ -32,6 +32,11 @@ import croom.konekom.`in`.a100pitask.viewmodel.HomeViewModelFactory
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import android.os.StrictMode.VmPolicy
+import android.os.StrictMode
+
+
+
 
 /***
  * Created By Kartikey Kumar Srivastava
@@ -61,13 +66,29 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setStrictMode()
         appDatabase = AppDatabase.getInstance(this)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, croom.konekom.`in`.a100pitask.R.layout.activity_main)
         init()
         addObserver()
         toolbar!!.title = "Currencies"
         setAdapter()
 
+    }
+
+    private fun setStrictMode() {
+        StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder()
+                .detectDiskReads()
+                .detectDiskWrites()
+                .detectNetwork()   // or .detectAll() for all detectable problems
+                .penaltyLog()
+                .build())
+        StrictMode.setVmPolicy(VmPolicy.Builder()
+                .detectLeakedSqlLiteObjects()
+                .detectLeakedClosableObjects()
+                .penaltyLog()
+                .penaltyDeath()
+                .build())
     }
 
     //Observer for api request and api status
