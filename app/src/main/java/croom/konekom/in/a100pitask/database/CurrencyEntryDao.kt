@@ -15,8 +15,8 @@ import croom.konekom.`in`.a100pitask.model.Currency
 //Dao interface for CRUD operations
 @Dao
 interface CurrencyEntryDao {
-    @get:Query("SELECT * FROM Currency")
-    val allCurrencies: LiveData<List<Currency>>
+    @Query("SELECT * FROM Currency")
+    fun allCurrencies(): LiveData<List<Currency>>
 
     @Insert
     fun insertCurrencies(currencyEntries: List<Currency>)

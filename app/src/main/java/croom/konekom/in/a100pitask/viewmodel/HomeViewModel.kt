@@ -14,24 +14,29 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 
-class HomeViewModel(val appDatabase: AppDatabase, val app: Application) : AndroidViewModel(app) {
+class HomeViewModel(appDatabase: AppDatabase, val app: Application) : AndroidViewModel(app) {
 
     private val viewModelJob = Job()
 
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
-    private val currencyRepository = CurrencyRepository(appDatabase)
+    private val currencyRepository = CurrencyRepository(appDatabase, app)
 
     init {
         viewModelScope.launch {
-            if (ConnectivityController.isNetworkAvailable(app)) {
-                currencyRepository.refreshCurrencies()
-            }
+
+            currencyRepository.refreshCurrencies()
+
         }
     }
 
     var currencyArrayList = currencyRepository.currencies
+    val inProgress = currencyRepository.inProgress
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+    }
+
+    fun updateInProgress() {
+        inProgress.value = 2
     }
 }

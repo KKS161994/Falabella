@@ -40,7 +40,7 @@ class CurrencyWidgetProvider : AppWidgetProvider() {
 
         for (appwidgetId in appWidgetIds) {
 
-            currencyArrayList = appDatabase!!.userDao().allCurrencies.value
+            currencyArrayList = appDatabase!!.userDao().allCurrencies().value
             val views = RemoteViews(context.packageName, R.layout.app_widget)
 
             if (currencyArrayList!!.size > 0) {
@@ -80,7 +80,7 @@ class CurrencyWidgetProvider : AppWidgetProvider() {
         sharedpreferences = context.getSharedPreferences(Constants.MyPREFERENCES, Context.MODE_PRIVATE)
         appDatabase = AppDatabase.getInstance(context)
 
-        currencyArrayList = CurrencyRepository(appDatabase!!).currencies.value
+        currencyArrayList = CurrencyRepository(appDatabase!!,context).currencies.value
 
         if (PREVIOUS_CURRENCY == intent.action) {
             current_pos = sharedpreferences!!.getInt(Constants.CURRENT_POS, 0)

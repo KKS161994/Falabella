@@ -42,55 +42,70 @@ class MainActivity : AppCompatActivity() {
     private var apiInterface: ApiInterface? = null
     private val TAG = MainActivity::class.java.simpleName
     private var appDatabase: AppDatabase? = null
-//    private var currencyArrayList: MutableList<Currency>? = null
+    //    private var currencyArrayList: MutableList<Currency>? = null
     private var currencyRecyclerView: RecyclerView? = null
     private var currencyItemsAdapter: CurrencyItemsAdapter? = null
     private var noNetworkView: ImageView? = null
     private var progressBar: ProgressBar? = null
     private var toolbar: ActionBar? = null
-    var binding:ActivityMainBinding?=null
+    var binding: ActivityMainBinding? = null
 
     //View model variable
     private val viewModel: HomeViewModel by lazy {
         val activity = requireNotNull(this) {
             "You can only access the viewModel after onActivityCreated()"
         }
-        ViewModelProviders.of(this, HomeViewModelFactory(appDatabase!!,activity.application))
+        ViewModelProviders.of(this, HomeViewModelFactory(appDatabase!!, activity.application))
                 .get(HomeViewModel::class.java)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
+        appDatabase = AppDatabase.getInstance(this)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         init()
-        adObserver()
+        addObserver()
         toolbar!!.title = "Currencies"
         setAdapter()
 
     }
 
-    private fun adObserver() {
+    //Observer for api request and api status
+    private fun addObserver() {
         viewModel.currencyArrayList.observe(this, Observer<List<Currency>> { currencies ->
             currencies?.apply {
-                if(currencies.size!=0)
-                {
+                if (currencies.size != 0) {
                     currencyItemsAdapter?.currencies = currencies
                     setContentPage()
+                    viewModel.updateInProgress()
                 }
-                else
-                    setNoContentPage()
+
             }
+        })
+        viewModel.inProgress.observe(this, Observer {
+            if (it == 1) {
+                progressBar!!.visibility = View.VISIBLE
+                currencyRecyclerView!!.visibility = View.GONE
+                noNetworkView!!.visibility = View.GONE
+            } else if (it == 3) {
+                progressBar!!.visibility = View.GONE
+                setNoContentPage()
+            } else if(it==2){
+                noNetworkView!!.visibility = View.GONE
+                progressBar!!.visibility = View.GONE
+            }
+
         })
     }
 
     //To initialise view and variable
     private fun init() {
         toolbar = supportActionBar
-        appDatabase = AppDatabase.getInstance(this)
+
         currencyRecyclerView = binding!!.currenciesList
         noNetworkView = binding!!.networkerror
         progressBar = binding!!.currencyLoader
     }
-
 
 
     //To set network error when their is no network and no data in local database.
@@ -111,8 +126,13 @@ class MainActivity : AppCompatActivity() {
         currencyItemsAdapter = CurrencyItemsAdapter(this)
         currencyRecyclerView!!.adapter = currencyItemsAdapter
         currencyRecyclerView!!.layoutManager = LinearLayoutManager(this)
-    }
 
+
+        viewModel.currencyArrayList.value?.let {
+        currencyItemsAdapter!!.currencies = it
+        }
+
+    }
 
 
 }
