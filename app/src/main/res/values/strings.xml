@@ -1,6 +1,10 @@
 <resources>
-    <string name="app_name">100PiTask</string>
+    <string name="app_name">Falabella</string>
     <string name="currencyLong"> Currency Long</string>
     <string name="currency">Currency</string>
     <string name="txFee">Tx Fee</string>
+    <string name="beer_name">Beer Name</string>
+    <string name="style">Style</string>
+    <string name="alochol_content">Alochol Content</string>
+    <string name="search_hint">Search</string>
 </resources>
